@@ -5,6 +5,7 @@ import com.example.LogIn.SignUp.Authentication.data.user.ResetPasswordRequestDTO
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationRequest;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationResponse;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationService;
+import com.example.LogIn.SignUp.Authentication.security.auth.VerifyOtpRequest;
 import com.example.LogIn.SignUp.Authentication.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${base.url}")
+
 public class UserController {
 
     private final AuthenticationService service;
@@ -26,8 +28,13 @@ public class UserController {
     @PostMapping("/auth")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody AuthenticationRequest request
-    ) {
+    ) throws MessagingException, IOException {
         return ResponseEntity.ok(service.authentication(request));
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<AuthenticationResponse> verifyOtp(@RequestBody VerifyOtpRequest request) {
+        return ResponseEntity.ok(service.verifyOtp(request));
     }
 
     @PostMapping("/forgot-password")
@@ -46,5 +53,15 @@ public class UserController {
         );
         return ResponseEntity.ok("Password changed successfully.");
     }
+
+    @PutMapping("/user/{id}/2fa")
+    public ResponseEntity<String> updateTwoFactor(
+            @PathVariable Long id,
+            @RequestParam boolean enabled
+    ) {
+        userService.updateTwoFactorEnabled(id, enabled);
+        return ResponseEntity.ok("Two-Factor Authentication " + (enabled ? "enabled" : "disabled") + " successfully.");
+    }
+
 
 }

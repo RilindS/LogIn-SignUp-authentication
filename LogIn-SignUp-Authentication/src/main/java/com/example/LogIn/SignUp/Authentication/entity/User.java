@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,6 +48,16 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column(name = "two_factor_enabled")
+    public Boolean twoFactorEnabled=false;
+
+    @Column(name = "two_factor_code")
+    private String twoFactorCode;
+
+    @Column(name = "two_factor_expiry")
+    private LocalDateTime twoFactorExpiry;
+
+
     @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Role role;
     @Override
@@ -62,5 +73,9 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public boolean isTwoFactorEnabled() {
+        return twoFactorEnabled;
     }
 }
