@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -79,6 +80,35 @@ public class UserService {
         helper.setText(replacedWildCardsDTO.getBody(), true);
         mailSender.send(message);
     }
+    @Transactional
+    public void sendTwoFactorCode(String email,String code) throws MessagingException, IOException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!user.isTwoFactorEnabled()) {
+            throw new IllegalStateException("Two-factor authentication is not enabled for this user.");
+        }
+
+        Map<String, String> variables = emailService.replaceUserFields(user);
+        variables.put("token", code);
+
+        String templatePath = "src/main/resources/templates/TwoFactorTemplate.html";
+        String bodyTemplate = new String(Files.readAllBytes(Paths.get(templatePath)), StandardCharsets.UTF_8);
+
+        ReplacedWildCardsDTO replacedWildCardsDTO = templateUtil.getReplacedWildCards(
+                variables,
+                "Two-Factor Authentication Code",
+                bodyTemplate
+        );
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(email);
+        helper.setSubject(replacedWildCardsDTO.getSubject());
+        helper.setText(replacedWildCardsDTO.getBody(), true);
+        mailSender.send(message);
+    }
+
 
     @Transactional
     public void resetPassword(String email, String code, String newPassword, String confirmPassword) {
@@ -105,6 +135,14 @@ public class UserService {
 
         tokenRepository.delete(token);
     }
+
+    public void updateTwoFactorEnabled(Long userId, boolean enabled) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setTwoFactorEnabled(enabled);
+        userRepository.save(user);
+    }
+
 
 
 }
