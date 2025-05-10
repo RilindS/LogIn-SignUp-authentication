@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Two-Factor Verification</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: #f4f4f4;
+                padding: 20px;
+            }
+
+            .container {
+                max-width: 600px;
+                margin: auto;
+                background: #fff;
+                padding: 25px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .code-box {
+                background: #eef6ff;
+                padding: 20px;
+                border-left: 5px solid #3498db;
+                text-align: center;
+                font-size: 24px;
+                font-weight: bold;
+                color: #e74c3c;
+                margin: 20px 0;
+                letter-spacing: 3px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h2>Two-Factor Authentication</h2>
+            <p>Hello <strong>#userFirstName# #userLastName#</strong>,</p>
+            <p>You are trying to log in to your account. To complete the login, use the verification code below:</p>
+
+            <div class="code-box">#token#</div>
+
+            <p>This code will expire in 10 minutes. If you didn't try to log in, please ignore this message or contact our
+                support team.</p>
+
+            <p>Stay safe,<br />Support Team</p>
+        </div>
+    </body>
+
+</html>
