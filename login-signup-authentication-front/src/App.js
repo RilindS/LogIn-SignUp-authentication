@@ -2,6 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./layouts/AdminLayout";
+import OtpVerificationPage from "./pages/sharedPages/OtpVerificationPage";
 
 import HomePage from "./pages/Home/HomePage";
 import LoginRegisterPage from "./pages/sharedPages/LoginAndRegisterPage";
@@ -14,6 +15,8 @@ const App = () => {
         <Route path="/login" element={<LoginRegisterPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/verify-otp" element={<OtpVerificationPage />} />
+
 
         <Route path="/admin/*" element={<PrivateRoute roles={['ADMIN']} component={AdminLayout} />} />
         {/* <Route path="/doctor/*" element={<PrivateRoute roles={['DOCTOR']} component={DoctorLayout} />} />

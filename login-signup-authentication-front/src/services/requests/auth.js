@@ -20,6 +20,17 @@ export const loginUser = async (loginData) => {
   }
 };
 
+export const verifyOtp = async (otpData) => {
+  try {
+    const response = await api.post('/verify-otp', otpData);
+    return response.data;
+  } catch (error) {
+    console.error('OTP verification error:', error);
+    throw error;
+  }
+};
+
+
 
 //this is for /me endppoint 
 export const getUserData = async () => {

@@ -20,13 +20,23 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      const token = response.token; 
   
+      if (response.twoFactorRequired) {
+        navigate('/verify-otp', {
+          state: {
+            email: formData.email,
+            userId: response.userId
+          }
+        });
+        return;
+      }
+  
+      const token = response.token;
       if (token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
-        const role = decodedPayload.role; // Supozohet se token ka fushën "role"
+        const role = decodedPayload.role;
   
         localStorage.setItem('authToken', token);
   
@@ -34,10 +44,8 @@ const LoginForm = () => {
           navigate('/user/');
         } else if (role === 'ADMIN') {
           navigate('/admin/');
-        } 
-      
-         else {
-          navigate('/unauthorized'); 
+        } else {
+          navigate('/unauthorized');
         }
       } else {
         console.log('No token found in response');
@@ -46,6 +54,7 @@ const LoginForm = () => {
       setErrorMessage('Invalid email or password');
     }
   };
+  
   
   return (
     <form onSubmit={handleSubmit}>
