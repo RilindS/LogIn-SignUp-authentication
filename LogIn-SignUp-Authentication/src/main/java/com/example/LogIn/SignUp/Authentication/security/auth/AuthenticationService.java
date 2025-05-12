@@ -1,13 +1,18 @@
 package com.example.LogIn.SignUp.Authentication.security.auth;
 
+import com.example.LogIn.SignUp.Authentication.data.user.RegisterRequest;
+import com.example.LogIn.SignUp.Authentication.enums.Status;
+import com.example.LogIn.SignUp.Authentication.repository.RoleRepository;
 import com.example.LogIn.SignUp.Authentication.repository.UserRepository;
 import com.example.LogIn.SignUp.Authentication.security.service.JwtService;
 import com.example.LogIn.SignUp.Authentication.service.UserService;
 import jakarta.mail.MessagingException;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,6 +27,9 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+
 
     public AuthenticationResponse authentication(AuthenticationRequest request) throws MessagingException, IOException {
 
@@ -74,4 +82,40 @@ public class AuthenticationService {
                 .build();
     }
 
+    public AuthenticationResponse createUser(RegisterRequest request) throws MessagingException, IOException {
+        validateRegisterRequest(request);
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new UsernameNotFoundException("A user with this email already exists: " + request.getEmail());
+        }
+
+        String logoUrl = null;
+        var user = com.example.LogIn.SignUp.Authentication.entity.User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(roleRepository.findByName(request.getRole().name()))
+                .phoneNumber(request.getPhoneNumber())
+                .imageUrl(logoUrl)
+                .status(Status.ACTIVE)
+                .build();
+
+
+        userRepository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .userId(user.getId())
+                .build();
+    }
+
+    private void validateRegisterRequest(RegisterRequest request) {
+        if (request.getFirstName() == null || request.getFirstName().isEmpty() ||
+                request.getEmail() == null || request.getEmail().isEmpty()) {
+            throw new ValidationException("Please fill the required  fields");
+        }
+    }
 }

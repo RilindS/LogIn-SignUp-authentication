@@ -1,6 +1,7 @@
 package com.example.LogIn.SignUp.Authentication.controller;
 
 import com.example.LogIn.SignUp.Authentication.data.user.ForgotPasswordRequestDTO;
+import com.example.LogIn.SignUp.Authentication.data.user.RegisterRequest;
 import com.example.LogIn.SignUp.Authentication.data.user.ResetPasswordRequestDTO;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationRequest;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationResponse;
@@ -63,5 +64,10 @@ public class UserController {
         return ResponseEntity.ok("Two-Factor Authentication " + (enabled ? "enabled" : "disabled") + " successfully.");
     }
 
-
+    @PostMapping("/create")
+    public ResponseEntity<AuthenticationResponse> createUser(
+            @RequestBody RegisterRequest request
+    ) throws MessagingException, IOException {
+        return ResponseEntity.ok(service.createUser(request));
+    }
 }
