@@ -30,21 +30,14 @@ const LoginForm = () => {
   
         localStorage.setItem('authToken', token);
   
-        // Ridrejto përdoruesin bazuar në rolin e tij
-        if (role === 'DOCTOR') {
-          navigate('/doctor/');
-        } else if (role === 'NURSE') {
-          navigate('/nurse/');
-        } else if (role === 'PATIENT') {
-          navigate('/patient/');
+        if (role === 'USER') {
+          navigate('/user/');
         } else if (role === 'ADMIN') {
           navigate('/admin/');
         } 
-        // else if (role === 'USER') {
-        //   navigate('/user/');
-        // }
+      
          else {
-          navigate('/unauthorized'); // Ose një faqe tjetër default
+          navigate('/unauthorized'); 
         }
       } else {
         console.log('No token found in response');

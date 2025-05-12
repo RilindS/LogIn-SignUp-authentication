@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import AdminLayout from "./layouts/AdminLayout";
 
-function App() {
+import HomePage from "./pages/Home/HomePage";
+import LoginRegisterPage from "./pages/sharedPages/LoginAndRegisterPage";
+import Unauthorized from "./pages/sharedPages/Unauthorized";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginRegisterPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        <Route path="/admin/*" element={<PrivateRoute roles={['ADMIN']} component={AdminLayout} />} />
+        {/* <Route path="/doctor/*" element={<PrivateRoute roles={['DOCTOR']} component={DoctorLayout} />} />
+        <Route path="/patient/*" element={<PrivateRoute roles={['PATIENT']} component={PatientLayout} />} />
+        <Route path="/nurse/*" element={<PrivateRoute roles={['NURSE']} component={NurseLayout} />} /> */}
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
