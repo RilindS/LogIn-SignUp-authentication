@@ -2,7 +2,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminLayout from "./layouts/AdminLayout";
 import OtpVerificationPage from "./pages/sharedPages/OtpVerificationPage";
-
 import ForgotPassword from "./pages/ForgotPassword";
 import HomePage from "./pages/Home/HomePage";
 import ResetPassword from "./pages/ResetPassword";
