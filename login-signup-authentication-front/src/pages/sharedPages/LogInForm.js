@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/requests/auth';
+import './LoginRegisterPage.scss';
+
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ const LoginForm = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +22,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-  
+
       if (response.twoFactorRequired) {
         navigate('/verify-otp', {
           state: {
@@ -30,16 +32,16 @@ const LoginForm = () => {
         });
         return;
       }
-  
+
       const token = response.token;
       if (token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
         const role = decodedPayload.role;
-  
+
         localStorage.setItem('authToken', token);
-  
+
         if (role === 'USER') {
           navigate('/user/');
         } else if (role === 'ADMIN') {
@@ -54,8 +56,11 @@ const LoginForm = () => {
       setErrorMessage('Invalid email or password');
     }
   };
-  
-  
+
+  const handleForgotPassword = () => {
+    navigate('/forget-password');
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -76,6 +81,20 @@ const LoginForm = () => {
       />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <button type="submit">Login</button>
+
+      <div style={{ marginTop: '10px', textAlign: 'center' }}>
+        <button type="button" onClick={handleForgotPassword} style={{
+          background: 'none',
+          border: 'none',
+          color: '#007bff',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          padding: 0,
+          fontSize: '14px'
+        }}>
+          Forgot Password?
+        </button>
+      </div>
     </form>
   );
 };
