@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/requests/auth';
+import './Form.css'; 
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const LoginForm = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,17 +21,16 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      const token = response.token; 
-  
+      const token = response.token;
+
       if (token) {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const decodedPayload = JSON.parse(atob(base64));
-        const role = decodedPayload.role; // Supozohet se token ka fushën "role"
-  
+        const role = decodedPayload.role;
+
         localStorage.setItem('authToken', token);
-  
-        // Ridrejto përdoruesin bazuar në rolin e tij
+
         if (role === 'DOCTOR') {
           navigate('/doctor/');
         } else if (role === 'NURSE') {
@@ -39,12 +39,8 @@ const LoginForm = () => {
           navigate('/patient/');
         } else if (role === 'ADMIN') {
           navigate('/admin/');
-        } 
-        // else if (role === 'USER') {
-        //   navigate('/user/');
-        // }
-         else {
-          navigate('/unauthorized'); // Ose një faqe tjetër default
+        } else {
+          navigate('/unauthorized');
         }
       } else {
         console.log('No token found in response');
@@ -53,28 +49,31 @@ const LoginForm = () => {
       setErrorMessage('Invalid email or password');
     }
   };
-  
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <button type="submit">Login</button>
-    </form>
+    <div className="form-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 

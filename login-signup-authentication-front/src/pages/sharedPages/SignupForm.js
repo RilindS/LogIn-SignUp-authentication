@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { registerUser } from '../../services/requests/auth';
+import { registerUser } from '../../services/requests/auth';
 import './Form.css';
 
 const SignupForm = () => {
@@ -25,8 +25,8 @@ const SignupForm = () => {
 
   return (
     <div className="form-container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit} className="auth-form">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Sign Up</h2>
         <input
           type="text"
           name="name"
@@ -51,7 +51,7 @@ const SignupForm = () => {
           onChange={handleChange}
           required
         />
-        {errorMessage && <p className="error">{errorMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit">Sign Up</button>
       </form>
     </div>
