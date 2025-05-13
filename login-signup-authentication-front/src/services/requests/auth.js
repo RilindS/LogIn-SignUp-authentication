@@ -29,6 +29,25 @@ export const verifyOtp = async (otpData) => {
     throw error;
   }
 };
+ export const forgotPassword = async (email) => {
+  try {
+    const response = await api.post("/forgot-password", { email });
+    return response.data;
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (data) => {
+  try {
+    const response = await api.post("/reset-password", data);
+    return response.data;
+  } catch (error) {
+    console.error('Reset password error:', error);
+    throw error;
+  }
+};
 
 
 
@@ -57,3 +76,4 @@ export const getUserData = async () => {
     throw new Error("No token found");
   }
 };
+
