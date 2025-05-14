@@ -48,8 +48,9 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Builder.Default
     @Column(name = "two_factor_enabled")
-    public Boolean twoFactorEnabled=false;
+    private Boolean twoFactorEnabled=false;
 
     @Column(name = "two_factor_code")
     private String twoFactorCode;

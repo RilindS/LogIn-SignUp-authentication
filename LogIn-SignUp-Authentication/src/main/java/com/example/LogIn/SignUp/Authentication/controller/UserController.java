@@ -64,7 +64,7 @@ public class UserController {
         return ResponseEntity.ok("Two-Factor Authentication " + (enabled ? "enabled" : "disabled") + " successfully.");
     }
 
-    @PostMapping("/create")
+    @PostMapping("/users/create")
     public ResponseEntity<AuthenticationResponse> createUser(
             @RequestBody RegisterRequest request
     ) throws MessagingException, IOException {

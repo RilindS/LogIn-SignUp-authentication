@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import LoginForm from './LoginForm';
 import './LoginRegisterPage.scss';
-import RegisterForm from './SignInForm';
+import RegisterForm from './RegisterForm';
 
 const LoginRegisterPage = () => {
   const [isRegister, setIsRegister] = useState(false);

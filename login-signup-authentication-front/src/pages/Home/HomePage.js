@@ -1,7 +1,12 @@
-import React from "react";
 //import "./home.css";
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
+  const handleLogIn = () => {
+    navigate('/login');
+  };
   return (
     <div className="home-page">
    
@@ -16,6 +21,19 @@ const HomePage = () => {
             high-quality care
           </p>
         </div>
+        <div style={{ marginTop: '10px', textAlign: 'center' }}>
+        <button type="button" onClick={handleLogIn} style={{
+          background: 'none',
+          border: 'none',
+          color: '#007bff',
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          padding: 0,
+          fontSize: '14px'
+        }}>
+         LOG IN
+        </button>
+      </div>
       </div>
 
     </div>
