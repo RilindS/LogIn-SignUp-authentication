@@ -1,13 +1,12 @@
 import {
-  faEnvelope,
-  faSignOutAlt,
-  faTachometerAlt
+    faSignOutAlt,
+    faTachometerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
 //import "./Sidebar.scss";
   
-  const AdminSidebar = () => {
+  const UserSidebar = () => {
     const navigate = useNavigate();
   
     const handleLogout = () => {
@@ -20,25 +19,11 @@ import { Link, useNavigate } from "react-router-dom";
       <div className="sidebar">
         <ul>
           <li>
-            <Link to="/admin/dashboard">
+            <Link to="/user/dashboard">
               <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
             </Link>
           </li>
-          <li>
-            <Link to="/admin/email">
-              <FontAwesomeIcon icon={faEnvelope} /> Send Email
-            </Link>
-          </li>
-         <li>
-            <Link to="/admin/register">
-              <FontAwesomeIcon icon={faTachometerAlt} /> Register User
-            </Link>
-          </li>
-          <li>
-            <Link to="/admin/register-admin">
-              <FontAwesomeIcon icon={faTachometerAlt} /> Register Admin
-            </Link>
-          </li>
+          
           <li>
             <Link to="/" onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
@@ -49,5 +34,5 @@ import { Link, useNavigate } from "react-router-dom";
     );
   };
   
-  export default AdminSidebar;
+  export default UserSidebar;
   
