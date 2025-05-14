@@ -3,6 +3,7 @@ package com.example.LogIn.SignUp.Authentication.controller;
 import com.example.LogIn.SignUp.Authentication.data.user.ForgotPasswordRequestDTO;
 import com.example.LogIn.SignUp.Authentication.data.user.RegisterRequest;
 import com.example.LogIn.SignUp.Authentication.data.user.ResetPasswordRequestDTO;
+import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationRequest;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationResponse;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationService;
@@ -11,15 +12,18 @@ import com.example.LogIn.SignUp.Authentication.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${base.url}")
+@Log4j2
 
 public class UserController {
 
@@ -70,4 +74,10 @@ public class UserController {
     ) throws MessagingException, IOException {
         return ResponseEntity.ok(service.createUser(request));
     }
+
+    @GetMapping("/users/all")
+    public ResponseEntity<List<ViewUser>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
 }
