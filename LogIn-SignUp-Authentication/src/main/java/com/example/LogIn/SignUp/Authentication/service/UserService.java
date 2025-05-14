@@ -1,6 +1,7 @@
 package com.example.LogIn.SignUp.Authentication.service;
 
 import com.example.LogIn.SignUp.Authentication.data.email.ReplacedWildCardsDTO;
+import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
 import com.example.LogIn.SignUp.Authentication.entity.PasswordResetToken;
 import com.example.LogIn.SignUp.Authentication.entity.User;
 import com.example.LogIn.SignUp.Authentication.repository.PasswordResetTokenRepository;
@@ -23,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -143,6 +145,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-
-
+    public List<ViewUser> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
 }
