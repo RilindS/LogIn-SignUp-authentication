@@ -1,9 +1,6 @@
 package com.example.LogIn.SignUp.Authentication.controller;
 
-import com.example.LogIn.SignUp.Authentication.data.user.ForgotPasswordRequestDTO;
-import com.example.LogIn.SignUp.Authentication.data.user.RegisterRequest;
-import com.example.LogIn.SignUp.Authentication.data.user.ResetPasswordRequestDTO;
-import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
+import com.example.LogIn.SignUp.Authentication.data.user.*;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationRequest;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationResponse;
 import com.example.LogIn.SignUp.Authentication.security.auth.AuthenticationService;
@@ -79,5 +76,14 @@ public class UserController {
     public ResponseEntity<List<ViewUser>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<ViewUser> editUser(@PathVariable Long id, @RequestBody EditUserRequest request) {
+        return ResponseEntity.ok(userService.editUser(id, request));
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }
