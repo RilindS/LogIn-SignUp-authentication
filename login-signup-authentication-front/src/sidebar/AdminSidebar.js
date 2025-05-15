@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-//import "./Sidebar.scss";
+import "./Sidebar.scss";
   
   const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -37,6 +37,11 @@ import { Link, useNavigate } from "react-router-dom";
           <li>
             <Link to="/admin/register-admin">
               <FontAwesomeIcon icon={faTachometerAlt} /> Register Admin
+            </Link>
+          </li>
+          <li>
+            <Link to="/admin/enable-2fa">
+              <FontAwesomeIcon icon={faTachometerAlt} /> Enable 2FA
             </Link>
           </li>
           <li>

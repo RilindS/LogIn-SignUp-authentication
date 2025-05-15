@@ -4,7 +4,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-//import "./Sidebar.scss";
+import "./Sidebar.scss";
   
   const UserSidebar = () => {
     const navigate = useNavigate();
@@ -21,6 +21,11 @@ import { Link, useNavigate } from "react-router-dom";
           <li>
             <Link to="/user/dashboard">
               <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/user/enable-2fa">
+              <FontAwesomeIcon icon={faTachometerAlt} /> Enable 2FA
             </Link>
           </li>
           

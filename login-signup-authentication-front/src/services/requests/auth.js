@@ -77,3 +77,26 @@ export const getUserData = async () => {
   }
 };
 
+export const toggle2FA = async (userId, enabled) => {
+  const token = localStorage.getItem("authToken");
+  try {
+    const response = await fetch(`http://localhost:8080/api/user/${userId}/2fa?enabled=${enabled}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update 2FA settings");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error toggling 2FA:", error);
+    throw error;
+  }
+};
+
+
