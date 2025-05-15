@@ -13,9 +13,13 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -168,7 +172,8 @@ public class UserService {
                 user.getEmail(),
                 user.getPhoneNumber(),
                 user.getImageUrl(),
-                user.getStatus()
+                user.getStatus(),
+                user.getTwoFactorEnabled()
         );
     }
 
@@ -178,5 +183,26 @@ public class UserService {
 
         user.setDeletedAt(LocalDateTime.now());
         userRepository.save(user);
+    }
+    public ViewUser myProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String methodName = "getUser";
+
+        log.info("{} -> Get User by Id", methodName);
+
+        Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
+
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+
+                return ViewUser.fromEntity(user);
+            } else {
+                throw  new RuntimeException();
+
+            }
+        } catch (Exception e) {
+            log.error("{} -> Get User by Id", methodName);
+            throw new InternalException(e.getLocalizedMessage(), e.getCause());
+        }
     }
 }

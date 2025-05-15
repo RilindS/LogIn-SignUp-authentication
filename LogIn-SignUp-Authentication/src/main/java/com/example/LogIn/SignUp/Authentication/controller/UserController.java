@@ -10,7 +10,10 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -85,5 +88,17 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("users/me")
+    public ResponseEntity<ViewUser> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String methodName = "getMyProfile";
+
+        log.info("{} -> Get My Profile", methodName);
+        ViewUser userView = userService.myProfile(userDetails);
+
+        log.info("{} -> Get user, response status: 200", methodName);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userView);
     }
 }
