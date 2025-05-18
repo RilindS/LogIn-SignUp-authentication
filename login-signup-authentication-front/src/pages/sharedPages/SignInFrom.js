@@ -10,7 +10,6 @@ const RegisterForm = ({onRegisterComplete}) => {
       lastName: '',
       email: '',
       password: '',
-      phoneNumber: '',
       imageUrl: '',
       status: 'ACTIVE',
       role: 'USER', 
@@ -20,7 +19,6 @@ const RegisterForm = ({onRegisterComplete}) => {
       lastName: Yup.string().required('Last name is required'),
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-      phoneNumber: Yup.string(),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
@@ -77,16 +75,6 @@ const RegisterForm = ({onRegisterComplete}) => {
         onBlur={formik.handleBlur}
       />
       {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
-
-      <input
-        type="tel"
-        name="phoneNumber"
-        placeholder="Phone Number"
-        value={formik.values.phoneNumber}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      />
-      {formik.touched.phoneNumber && formik.errors.phoneNumber ? <div>{formik.errors.phoneNumber}</div> : null}
 
       <input
         type="text"

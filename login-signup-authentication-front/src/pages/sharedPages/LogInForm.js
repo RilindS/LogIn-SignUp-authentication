@@ -35,10 +35,10 @@ const LoginForm = () => {
           navigate('/doctor/');
         } else if (role === 'NURSE') {
           navigate('/nurse/');
-        } else if (role === 'PATIENT') {
-          navigate('/patient/');
         } else if (role === 'ADMIN') {
           navigate('/admin/');
+        } else if (role === 'PATIENTT') {
+          navigate('/patient/');
         } 
         // else if (role === 'USER') {
         //   navigate('/user/');
