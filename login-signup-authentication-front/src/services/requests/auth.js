@@ -92,7 +92,7 @@ export const toggle2FA = async (userId, enabled) => {
       throw new Error("Failed to update 2FA settings");
     }
 
-    return await response.json();
+    return await response.text();
   } catch (error) {
     console.error("Error toggling 2FA:", error);
     throw error;

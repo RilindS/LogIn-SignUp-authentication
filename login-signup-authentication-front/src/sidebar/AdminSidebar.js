@@ -5,7 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-import "./Sidebar.scss";
+//import "./Sidebar.scss";
   
   const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -27,6 +27,11 @@ import "./Sidebar.scss";
           <li>
             <Link to="/admin/email">
               <FontAwesomeIcon icon={faEnvelope} /> Send Email
+            </Link>
+          </li>
+            <li>
+            <Link to="/admin/profile">
+              <FontAwesomeIcon icon={faEnvelope} /> My Profile
             </Link>
           </li>
          <li>
