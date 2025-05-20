@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
-import React from 'react';
 import * as Yup from 'yup';
 import { registerUser } from '../../services/requests/auth';
+import './LoginRegisterPage.scss';
 
-const RegisterForm = ({onRegisterComplete}) => {
+const RegisterFormAdmin = ({onRegisterComplete}) => {
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -13,7 +13,7 @@ const RegisterForm = ({onRegisterComplete}) => {
       phoneNumber: '',
       imageUrl: '',
       status: 'ACTIVE',
-      role: 'USER', 
+      role: 'ADMIN', 
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required('First name is required'),
@@ -103,4 +103,4 @@ const RegisterForm = ({onRegisterComplete}) => {
   );
 };
 
-export default RegisterForm;
+export default RegisterFormAdmin;

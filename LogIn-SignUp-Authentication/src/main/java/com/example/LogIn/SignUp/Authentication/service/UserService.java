@@ -1,6 +1,8 @@
 package com.example.LogIn.SignUp.Authentication.service;
 
 import com.example.LogIn.SignUp.Authentication.data.email.ReplacedWildCardsDTO;
+import com.example.LogIn.SignUp.Authentication.data.user.EditUserRequest;
+import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
 import com.example.LogIn.SignUp.Authentication.entity.PasswordResetToken;
 import com.example.LogIn.SignUp.Authentication.entity.User;
 import com.example.LogIn.SignUp.Authentication.repository.PasswordResetTokenRepository;
@@ -11,9 +13,13 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,11 +29,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -143,6 +150,59 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<ViewUser> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+    public ViewUser editUser(Long id, EditUserRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setImageUrl(request.getImageUrl());
 
+        userRepository.save(user);
+
+        return new ViewUser(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPhoneNumber(),
+                user.getImageUrl(),
+                user.getStatus(),
+                user.getTwoFactorEnabled()
+        );
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setDeletedAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+    public ViewUser myProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        String methodName = "getUser";
+
+        log.info("{} -> Get User by Id", methodName);
+
+        Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
+
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+
+                return ViewUser.fromEntity(user);
+            } else {
+                throw  new RuntimeException();
+
+            }
+        } catch (Exception e) {
+            log.error("{} -> Get User by Id", methodName);
+            throw new InternalException(e.getLocalizedMessage(), e.getCause());
+        }
+    }
 }
