@@ -1,11 +1,13 @@
 import {
   faEnvelope,
   faSignOutAlt,
-  faTachometerAlt
+  faTachometerAlt,
+  faUser,
+  faShieldAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-//import "./Sidebar.scss";
+import "./Sidebar.scss";
   
   const AdminSidebar = () => {
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ import { Link, useNavigate } from "react-router-dom";
           </li>
             <li>
             <Link to="/admin/profile">
-              <FontAwesomeIcon icon={faEnvelope} /> My Profile
+              <FontAwesomeIcon icon={faUser} /> My Profile
             </Link>
           </li>
          <li>
@@ -46,7 +48,7 @@ import { Link, useNavigate } from "react-router-dom";
           </li>
           <li>
             <Link to="/admin/enable-2fa">
-              <FontAwesomeIcon icon={faTachometerAlt} /> Enable 2FA
+              <FontAwesomeIcon icon={faShieldAlt} /> Enable 2FA
             </Link>
           </li>
           <li>
