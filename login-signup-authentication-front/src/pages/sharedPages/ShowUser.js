@@ -45,10 +45,10 @@ const ShowUser = () => {
               <th>Phone Number</th>
               <td>{user.phoneNumber}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <th>Role</th>
               <td>{user.role}</td>
-            </tr>
+            </tr> */}
             <tr>
               <th>Status</th>
               <td>{user.status}</td>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes } from 'react-router-dom';
 import { UserRoutes } from '../routes/routesConfig';
-import AdminSidebar from '../sidebar/AdminSidebar';
 import generateRoutes from '../utils/GenerateRoutes';
 import UserSidebar from '../sidebar/UserSidebar';
 

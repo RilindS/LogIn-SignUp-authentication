@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from '../../services/requests/auth';
-import './LoginRegisterPage.scss';
+import './LoginRegisterPage1.scss';
 
 const RegisterFormAdmin = ({onRegisterComplete}) => {
   const formik = useFormik({

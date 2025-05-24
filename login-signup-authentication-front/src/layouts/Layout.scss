@@ -1,0 +1,10 @@
+.layout {
+  display: flex;
+}
+
+.content {
+  margin-left: 220px; // e njëjtë me .sidebar width
+  padding: 20px;
+  width: calc(100% - 220px);
+  min-height: 100vh;
+}
