@@ -20,6 +20,6 @@ export const AdminRoutes = [
 export const UserRoutes = [
     { path:"/enable-2fa", element: <Enable2FAPage />},
            { path:"/profile", element: <ShowUser />},
-
+            
 ];
 
