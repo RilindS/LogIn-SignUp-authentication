@@ -3,6 +3,7 @@ import { Routes } from 'react-router-dom';
 import { AdminRoutes } from '../routes/routesConfig';
 import AdminSidebar from '../sidebar/AdminSidebar';
 import generateRoutes from '../utils/GenerateRoutes';
+import "./Layout.scss"; 
 
 //import "./Layout.scss";
 

@@ -7,6 +7,7 @@ import HomePage from "./pages/Home/HomePage";
 import ResetPassword from "./pages/ResetPassword";
 import LoginRegisterPage from "./pages/sharedPages/LoginAndRegisterPage";
 import Unauthorized from "./pages/sharedPages/Unauthorized";
+import UserLayout from "./layouts/UserLayout";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
 
 
         <Route path="/admin/*" element={<PrivateRoute roles={['ADMIN']} component={AdminLayout} />} />
+        <Route path="/user/*" element={<PrivateRoute roles={['USER']} component={UserLayout} />} />
         {/* <Route path="/doctor/*" element={<PrivateRoute roles={['DOCTOR']} component={DoctorLayout} />} />
         <Route path="/patient/*" element={<PrivateRoute roles={['PATIENT']} component={PatientLayout} />} />
         <Route path="/nurse/*" element={<PrivateRoute roles={['NURSE']} component={NurseLayout} />} /> */}
