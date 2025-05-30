@@ -79,12 +79,12 @@ public class UserController {
     public ResponseEntity<List<ViewUser1>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
-    @PutMapping("/{id}")
+    @PutMapping("users/{id}")
     public ResponseEntity<ViewUser> editUser(@PathVariable Long id, @RequestBody EditUserRequest request) {
         return ResponseEntity.ok(userService.editUser(id, request));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

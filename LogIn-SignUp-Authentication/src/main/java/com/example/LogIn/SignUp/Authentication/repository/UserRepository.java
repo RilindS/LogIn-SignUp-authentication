@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(@Param("email") String email);
 
     @Query("SELECT new com.example.LogIn.SignUp.Authentication.data.user.ViewUser1(" +
-            "u.id, u.firstName, u.lastName, u.email, u.phoneNumber, u.imageUrl, u.status,u.twoFactorEnabled,u.city.name)" +
-            " FROM User u  WHERE u.deletedAt IS NULL")
+            "u.id, u.firstName, u.lastName, u.email, u.phoneNumber, u.imageUrl, u.status, u.twoFactorEnabled, u.city.name)" +
+            " FROM User u LEFT JOIN u.city where u.deletedAt is null")
     List<ViewUser1> getAllUsers();
+
 }
