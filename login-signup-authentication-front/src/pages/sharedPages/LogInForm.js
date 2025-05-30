@@ -43,9 +43,9 @@ const LoginForm = () => {
         localStorage.setItem('authToken', token);
 
         if (role === 'USER') {
-          navigate('/user/');
+          navigate('/user/profile');
         } else if (role === 'ADMIN') {
-          navigate('/admin/');
+          navigate('/admin/profile');
         } else {
           navigate('/unauthorized');
         }
