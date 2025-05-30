@@ -45,13 +45,13 @@ const UserPage = () => {
   };
 
   const handleUpdate = async () => {
-    await axios.put(`/api/users/${editingUser}`, formData);
+    await axios.put(`http://localhost:8080/api/users/${editingUser}`, formData);
     setEditingUser(null);
     fetchUsers();
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`/api/users/${id}`);
+    await axios.delete(`http://localhost:8080/api/users/${id}`);
     fetchUsers();
   };
 
@@ -76,7 +76,7 @@ const UserPage = () => {
               <td>{user.lastName}</td>
               <td>{user.email}</td>
               <td>{user.phoneNumber}</td>
-              <td>{user.city?.name}</td>
+              <td>{user.cityName}</td>
               <td>
                 <button onClick={() => handleEditClick(user)}>Edit</button>
                 <button onClick={() => handleDelete(user.id)} className="delete">Delete</button>
@@ -86,23 +86,29 @@ const UserPage = () => {
         </tbody>
       </table>
 
-      {editingUser && (
-        <div className="edit-form">
-          <h3>Edit User</h3>
-          <input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
-          <input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
-          <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-          <input type="text" placeholder="Phone Number" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
-          <input type="text" placeholder="Image URL" value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} />
-          <select value={formData.cityId} onChange={(e) => setFormData({ ...formData, cityId: e.target.value })}>
-            <option value="">Select City</option>
-            {cities.map(city => (
-              <option key={city.id} value={city.id}>{city.name}</option>
-            ))}
-          </select>
-          <button onClick={handleUpdate}>Save</button>
-        </div>
-      )}
+   {editingUser && (
+  <div className="modal-overlay" onClick={() => setEditingUser(null)}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <h3>Edit User</h3>
+      <input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
+      <input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
+      <input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+      <input type="text" placeholder="Phone Number" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
+      <input type="text" placeholder="Image URL" value={formData.imageUrl} onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })} />
+      <select value={formData.cityId} onChange={(e) => setFormData({ ...formData, cityId: e.target.value })}>
+        <option value="">Select City</option>
+        {cities.map(city => (
+          <option key={city.id} value={city.id}>{city.name}</option>
+        ))}
+      </select>
+      <div className="modal-actions">
+        <button onClick={handleUpdate}>Save</button>
+        <button onClick={() => setEditingUser(null)}>Cancel</button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

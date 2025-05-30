@@ -1,5 +1,4 @@
 import {
-  faEnvelope,
   faShieldAlt,
   faSignOutAlt,
   faTachometerAlt,
@@ -21,7 +20,7 @@ import "./Sidebar.scss";
     return (
       <div className="sidebar">
         <ul>
-          <li>
+          {/* <li>
             <Link to="/admin/dashboard">
               <FontAwesomeIcon icon={faTachometerAlt} /> Dashboard
             </Link>
@@ -30,7 +29,7 @@ import "./Sidebar.scss";
             <Link to="/admin/email">
               <FontAwesomeIcon icon={faEnvelope} /> Send Email
             </Link>
-          </li>
+          </li> */}
             <li>
             <Link to="/admin/profile">
               <FontAwesomeIcon icon={faUser} /> My Profile
