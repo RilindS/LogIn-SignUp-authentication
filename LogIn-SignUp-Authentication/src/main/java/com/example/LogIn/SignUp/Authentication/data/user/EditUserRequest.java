@@ -9,4 +9,5 @@ public class EditUserRequest {
     private String email;
     private String phoneNumber;
     private String imageUrl;
+    private Long cityId;
 }

@@ -1,7 +1,9 @@
 package com.example.LogIn.SignUp.Authentication.security.auth;
 
 import com.example.LogIn.SignUp.Authentication.data.user.RegisterRequest;
+import com.example.LogIn.SignUp.Authentication.entity.City;
 import com.example.LogIn.SignUp.Authentication.enums.Status;
+import com.example.LogIn.SignUp.Authentication.repository.CityRepository;
 import com.example.LogIn.SignUp.Authentication.repository.RoleRepository;
 import com.example.LogIn.SignUp.Authentication.repository.UserRepository;
 import com.example.LogIn.SignUp.Authentication.security.service.JwtService;
@@ -29,6 +31,7 @@ public class AuthenticationService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final CityRepository cityRepository;
 
 
     public AuthenticationResponse authentication(AuthenticationRequest request) throws MessagingException, IOException {
@@ -88,6 +91,8 @@ public class AuthenticationService {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UsernameNotFoundException("A user with this email already exists: " + request.getEmail());
         }
+        City city = cityRepository.findById(request.getCityId())
+                .orElseThrow(() -> new RuntimeException("City not found"));
 
         String logoUrl = null;
         var user = com.example.LogIn.SignUp.Authentication.entity.User.builder()
@@ -97,6 +102,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(roleRepository.findByName(request.getRole().name()))
                 .phoneNumber(request.getPhoneNumber())
+                .city(city)
                 .imageUrl(logoUrl)
                 .status(Status.ACTIVE)
                 .build();
