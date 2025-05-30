@@ -76,7 +76,7 @@ public class UserController {
     }
 
     @GetMapping("/users/all")
-    public ResponseEntity<List<ViewUser>> getAllUsers() {
+    public ResponseEntity<List<ViewUser1>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
     @PutMapping("/{id}")
