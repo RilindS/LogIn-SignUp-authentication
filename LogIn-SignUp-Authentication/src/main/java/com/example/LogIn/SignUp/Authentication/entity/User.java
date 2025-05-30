@@ -58,6 +58,10 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "two_factor_expiry")
     private LocalDateTime twoFactorExpiry;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
 
     @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER)
     private Role role;

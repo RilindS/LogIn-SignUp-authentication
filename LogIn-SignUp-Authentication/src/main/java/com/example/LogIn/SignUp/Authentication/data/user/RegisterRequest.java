@@ -29,4 +29,5 @@ public class RegisterRequest {
     private String imageUrl;
     // private Status status;
     private Entity role;
+    private Long cityId;
 }

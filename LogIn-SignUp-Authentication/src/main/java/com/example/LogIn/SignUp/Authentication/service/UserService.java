@@ -3,8 +3,11 @@ package com.example.LogIn.SignUp.Authentication.service;
 import com.example.LogIn.SignUp.Authentication.data.email.ReplacedWildCardsDTO;
 import com.example.LogIn.SignUp.Authentication.data.user.EditUserRequest;
 import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
+import com.example.LogIn.SignUp.Authentication.data.user.ViewUser1;
+import com.example.LogIn.SignUp.Authentication.entity.City;
 import com.example.LogIn.SignUp.Authentication.entity.PasswordResetToken;
 import com.example.LogIn.SignUp.Authentication.entity.User;
+import com.example.LogIn.SignUp.Authentication.repository.CityRepository;
 import com.example.LogIn.SignUp.Authentication.repository.PasswordResetTokenRepository;
 import com.example.LogIn.SignUp.Authentication.repository.UserRepository;
 import com.example.LogIn.SignUp.Authentication.util.TemplateUtil;
@@ -42,6 +45,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final PasswordResetTokenRepository tokenRepository;
+    private final CityRepository cityRepository;
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
@@ -150,9 +154,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<ViewUser> getAllUsers() {
+    public List<ViewUser1> getAllUsers() {
         return userRepository.getAllUsers();
     }
+
+
     public ViewUser editUser(Long id, EditUserRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -162,6 +168,12 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setImageUrl(request.getImageUrl());
+
+        City city = cityRepository.findById(request.getCityId())
+                .orElseThrow(() -> new RuntimeException("City not found"));
+
+        user.setCity(city);
+
 
         userRepository.save(user);
 
@@ -173,7 +185,8 @@ public class UserService {
                 user.getPhoneNumber(),
                 user.getImageUrl(),
                 user.getStatus(),
-                user.getTwoFactorEnabled()
+                user.getTwoFactorEnabled(),
+                user.getCity()
         );
     }
 

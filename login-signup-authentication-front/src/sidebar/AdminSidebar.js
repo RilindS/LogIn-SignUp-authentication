@@ -1,9 +1,9 @@
 import {
   faEnvelope,
+  faShieldAlt,
   faSignOutAlt,
   faTachometerAlt,
-  faUser,
-  faShieldAlt
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,6 +42,11 @@ import "./Sidebar.scss";
             </Link>
           </li>
           <li>
+            <Link to="/admin/users">
+              <FontAwesomeIcon icon={faTachometerAlt} /> All Users
+            </Link>
+          </li>
+          <li>
             <Link to="/admin/register-admin">
               <FontAwesomeIcon icon={faTachometerAlt} /> Register Admin
             </Link>
@@ -49,6 +54,11 @@ import "./Sidebar.scss";
           <li>
             <Link to="/admin/enable-2fa">
               <FontAwesomeIcon icon={faShieldAlt} /> Enable 2FA
+            </Link>
+          </li>
+          <li>
+            <Link to="/admin/city">
+              <FontAwesomeIcon icon={faShieldAlt} /> City
             </Link>
           </li>
           <li>

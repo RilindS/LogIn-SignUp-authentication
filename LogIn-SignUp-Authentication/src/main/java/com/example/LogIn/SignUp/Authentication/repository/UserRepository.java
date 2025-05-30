@@ -1,6 +1,6 @@
 package com.example.LogIn.SignUp.Authentication.repository;
 
-import com.example.LogIn.SignUp.Authentication.data.user.ViewUser;
+import com.example.LogIn.SignUp.Authentication.data.user.ViewUser1;
 import com.example.LogIn.SignUp.Authentication.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.email =:email and u.deletedAt is null")
     Optional<User> findByUsername(@Param("email") String email);
-    @Query("SELECT new com.example.LogIn.SignUp.Authentication.data.user.ViewUser(" +
-            "u.id, u.firstName, u.lastName, u.email, u.phoneNumber, u.imageUrl, u.status,u.twoFactorEnabled)" +
+
+    @Query("SELECT new com.example.LogIn.SignUp.Authentication.data.user.ViewUser1(" +
+            "u.id, u.firstName, u.lastName, u.email, u.phoneNumber, u.imageUrl, u.status,u.twoFactorEnabled,u.city.name)" +
             " FROM User u  WHERE u.deletedAt IS NULL")
-    List<ViewUser> getAllUsers();
+    List<ViewUser1> getAllUsers();
 }
